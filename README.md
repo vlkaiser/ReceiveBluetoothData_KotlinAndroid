@@ -15,15 +15,15 @@ Continuously scans for updated data after 'Get Data' is clicked.
 MAC ADDRESS of device (must be updated to use different device)
 
 ## Notes:  
-This takes in the data string, breaks it into a scanResults byte array, then pulls out the data I want (temperature, humidity, battery voltage) and converts it to something readable.
-The data string is (I think) 21 bytes long.
-[0..3] - Advertising status?
-[4..9] - MAC Address
-[10..11] - Temperature (Concat Hex, convert to Dec, divide by 10 = deg C)
-[12] - Humidity (convert to Dec = %rH)
-[13] - Battery % (convert to Dec = %)
-[14..15] - Battery Voltage ( Concat Hex, convert to Dec, divide by 1000 = V)
-[16] - Counter? (Counts each advertising, increments by 1?)  
+This takes in the data string, breaks it into a scanResults byte array, then pulls out the data I want (temperature, humidity, battery voltage) and converts it to something readable.  
+The data string is (I think) 21 bytes long.  
+[0..3] - Advertising status?  
+[4..9] - MAC Address  
+[10..11] - Temperature (Concat Hex, convert to Dec, divide by 10 = deg C)  
+[12] - Humidity (convert to Dec = %rH)  
+[13] - Battery % (convert to Dec = %)  
+[14..15] - Battery Voltage ( Concat Hex, convert to Dec, divide by 1000 = V)  
+[16] - Counter? (Counts each advertising, increments by 1?)    
 
 Useful to use nRF Connect App to read/verify data, addresses, services, characteristics, etc.   
 
@@ -31,7 +31,7 @@ Useful to use nRF Connect App to read/verify data, addresses, services, characte
 Android Studio Emulators are not Bluetooth-enabled (except maybe the default Pixel 2? I'm hazy on this).  
 You must run/debug on a Bluetooth-enabled device such as a Tablet.
 
-CAUTION: N00B  
+### CAUTION: N00B  
 This is a learning application to teach myself Android/Kotlin/Bluetooth from scratch. 
 "Best practicies" (or even "correct practices" may not be implemented, and all feedback/guidance is welcome)
 Also, I used a lot of deprecated functions. ¯\_(ツ)_/¯
