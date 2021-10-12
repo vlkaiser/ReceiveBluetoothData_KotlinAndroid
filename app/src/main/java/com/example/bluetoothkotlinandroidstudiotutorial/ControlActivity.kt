@@ -10,6 +10,7 @@ import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
 import android.bluetooth.le.*
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.bluetoothkotlinandroidstudiotutorial.ControlActivity.Companion.m_isConnected
 import com.example.bluetoothkotlinandroidstudiotutorial.ControlActivity.Companion.m_myUUID
@@ -46,19 +47,25 @@ class ControlActivity: AppCompatActivity() {
         m_address = intent.getStringExtra(MainActivity.EXTRA_ADDRESS).toString()
         m_bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
 
-        btn_Disconnect.setOnClickListener {}
+        btn_Disconnect.setOnClickListener {
+            disconnect()
+            Toast.makeText(this, "Disconnecting...", Toast.LENGTH_LONG).show()
+        }
 
         btn_getData.setOnClickListener{
             Log.d("BLE", "onclick")
+            Toast.makeText(this, "Scanning for broadcasted data...", Toast.LENGTH_LONG).show()
             m_bluetoothAdapter.bluetoothLeScanner.startScan(scanCallback)
         }
     }
 
     var scanCallback: ScanCallback = object : ScanCallback() {
+
         override fun onScanResult(callbackType: Int, result: ScanResult) {
             val device: BluetoothDevice = result.getDevice()
             val scanRecord: ByteArray? = result.getScanRecord()?.getBytes()
             val rssi: Int = result.getRssi()
+
 
 //ToDo: Add other sensor?
             if (device.address == "A4:C1:38:A6:AF:D1") {
@@ -83,11 +90,12 @@ class ControlActivity: AppCompatActivity() {
                     val h = bytesToHex(humiHex)
                     val b = bytesToHex(batVHex)
 
-                    val tempDec: Double = (Integer.parseInt(t,16)).toDouble()/10
+                    val tempCDec: Double = (Integer.parseInt(t,16)).toDouble()/10
+                    val tempFDec: Double = ((tempCDec * 1.8) + 32)
                     val humiDec: Int = Integer.parseInt(h,16)
                     val batVDec: Double = (Integer.parseInt(b, 16)).toDouble()/1000
 
-                    txt_tempData.text = tempDec.toString()
+                    txt_tempData.text = tempFDec.toString()
                     txt_humiData.text = humiDec.toString()
                     txt_batVData.text = batVDec.toString()
                 }
@@ -116,146 +124,19 @@ class ControlActivity: AppCompatActivity() {
         }
         return String(hexChars)
     }
-//
-//    private fun sendCommand(input: String) {
-//        if (m_bluetoothSocket != null) {
-//            try{
-//                m_bluetoothSocket!!.outputStream.write(input.toByteArray())
-//            } catch(e: IOException) {
-//                e.printStackTrace()
-//            }
-//        }
-//    }
-//
-//    private fun disconnect() {
-//        if (m_bluetoothSocket != null) {
-//            try {
-//                m_bluetoothSocket!!.close()
-//                m_bluetoothSocket = null
-//                m_isConnected = false
-//            } catch (e: IOException) {
-//                e.printStackTrace()
-//            }
-//        }
-//        finish()
-//    }
-//
-//    private fun getBLEData() {
-//
-//        }
-//
-//
-//    private class ConnectToDevice(c: Context) : AsyncTask<Void, Void, String>() {
-//        private var connectSuccess: Boolean = true
-//        private val context: Context
-//
-//        init {
-//            this.context = c
-//        }
-//
-//        override fun onPreExecute() {
-//            super.onPreExecute()
-//            m_progress = ProgressDialog.show(context, "Connecting...", "please wait")
-//        }
-//
-//        override fun doInBackground(vararg p0: Void?): String? {
-//            try {
-//                if (m_bluetoothSocket == null || !m_isConnected) {
-//                    m_bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-//                    val device: BluetoothDevice = m_bluetoothAdapter.getRemoteDevice(m_address)
-//                    m_bluetoothSocket = device.createInsecureRfcommSocketToServiceRecord(m_myUUID)
-//                    BluetoothAdapter.getDefaultAdapter().cancelDiscovery()
-//                    m_bluetoothSocket!!.connect()
-//                }
-//            } catch (e: IOException) {
-//                connectSuccess = false
-//                e.printStackTrace()
-//            }
-//            return null
-//        }
-//
-//        override fun onPostExecute(result: String?) {
-//            super.onPostExecute(result)
-//            if (!connectSuccess) {
-//                Log.i("data", "couldn't connect")
-//            } else {
-//                m_isConnected = true
-//            }
-//            m_progress.dismiss()
-//        }
-//
-//    }
 
-    // https://ikolomiyets.medium.com/transferring-data-between-android-devices-over-bluetooth-with-kotlin-3cab7e5ca0d2
+    private fun disconnect() {
+        if (m_bluetoothSocket != null) {
+            try {
+                m_bluetoothSocket!!.close()
+                m_bluetoothSocket = null
+                m_isConnected = false
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+        finish()
+    }
 
-//    class BluetoothServerController(activity: MainActivity) : Thread() {
-//        private var cancelled: Boolean
-//        private val serverSocket: BluetoothServerSocket?
-//        private val activity = activity
-////        val mmServerSocket: BluetoothServerSocket? by lazy(LazyThreadSafetyMode.NONE) {
-////            m_bluetoothAdapter?.listenUsingInsecureRfcommWithServiceRecord("Enviro_Sensor", m_myUUID)}
-//
-//        init {
-//            val btAdapter = BluetoothAdapter.getDefaultAdapter()
-//            if (btAdapter != null) {
-//                this.serverSocket = btAdapter.listenUsingRfcommWithServiceRecord("test", m_myUUID) // 1
-//                this.cancelled = false
-//            } else {
-//                this.serverSocket = null
-//                this.cancelled = true
-//            }
-//
-//        }
-//
-//        override fun run() {
-//            var socket: BluetoothSocket
-//
-//            while(true) {
-//                if (this.cancelled) {
-//                    break
-//                }
-//
-//                try {
-//                    socket = serverSocket!!.accept()  // 2
-//                } catch(e: IOException) {
-//                    break
-//                }
-//
-//                if (!this.cancelled && socket != null) {
-//                    Log.i("server", "Connecting")
-//                    BluetoothServer(this.activity, socket).start() // 3
-//                }
-//            }
-//        }
-//
-//        fun cancel() {
-//            this.cancelled = true
-//            this.serverSocket!!.close()
-//        }
-//    }
-//
-//    class BluetoothServer(private val activity: ControlActivity, private val socket: BluetoothSocket): Thread() {
-//        private val inputStream = this.socket.inputStream
-//        private val outputStream = this.socket.outputStream
-//
-//        override fun run() {
-//            try {
-//                val available = inputStream.available()
-//                val bytes = ByteArray(available)
-//                Log.i("server", "Reading")
-//                inputStream.read(bytes, 0, available)
-//                val text = String(bytes)
-//                Log.i("server", "Message received")
-//                Log.i("server", text)
-//                activity.appendText(text)
-//            } catch (e: Exception) {
-//                Log.e("client", "Cannot read data", e)
-//            } finally {
-//                inputStream.close()
-//                outputStream.close()
-//                socket.close()
-//            }
-//        }
-//    }
 
 }//ControlActivity
