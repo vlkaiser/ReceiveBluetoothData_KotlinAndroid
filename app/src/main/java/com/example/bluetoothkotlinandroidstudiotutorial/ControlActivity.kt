@@ -68,7 +68,9 @@ class ControlActivity: AppCompatActivity() {
 
 
 //ToDo: Add other sensor?
-            if (device.address == "A4:C1:38:A6:AF:D1") {
+           //if (device.address == "A4:C1:38:A6:AF:D1") {
+            var macAddress: String = ed_MACADDRESS.text.toString()
+            if (device.address == macAddress)  {
                 Log.d("BLE", "Scan")
                 Log.d("BLE", device.address)
                 Log.d("BLE", result.scanRecord.toString())
