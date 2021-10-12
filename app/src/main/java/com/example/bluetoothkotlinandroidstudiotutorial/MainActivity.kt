@@ -35,6 +35,9 @@ class MainActivity : AppCompatActivity() {
         if(!m_bluetoothAdapter!!.isEnabled) {
             val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
             startActivityForResult(enableBluetoothIntent, REQUEST_ENABLE_BLUETOOTH)
+            img_bleIv.setImageResource(R.drawable.ic_ble_off)
+        }else{
+            img_bleIv.setImageResource(R.drawable.ic_ble_on)
         }
 
         btn_select_device_refresh.setOnClickListener{ pairedDeviceList() }
@@ -43,21 +46,24 @@ class MainActivity : AppCompatActivity() {
         //Turn on Bluetooth
         btn_BLE_On.setOnClickListener {
             if (m_bluetoothAdapter!!.isEnabled) {
+                img_bleIv.setImageResource(R.drawable.ic_ble_on)
                 Toast.makeText(this, "Bluetooth is already Enabled.", Toast.LENGTH_LONG).show()
             } else {
                 val intent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
                 startActivityForResult(intent, REQUEST_ENABLE_BLUETOOTH)
+                img_bleIv.setImageResource(R.drawable.ic_ble_on)
             }
         }
 
         //Turn off Bluetooth
         btn_BLE_Off.setOnClickListener {
             if (!m_bluetoothAdapter!!.isEnabled) {
+                img_bleIv.setImageResource(R.drawable.ic_ble_off)
                 Toast.makeText(this, "Bluetooth is already Disabled.", Toast.LENGTH_LONG).show()
             } else {
                 m_bluetoothAdapter!!.disable()
-                img_bleIv.setImageResource(R.drawable.ic_ble_off)
                 Toast.makeText(this, "Turning Bluetooth Off...", Toast.LENGTH_LONG).show()
+                img_bleIv.setImageResource(R.drawable.ic_ble_off)
             }
         }
 
@@ -94,8 +100,10 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == REQUEST_ENABLE_BLUETOOTH) {
             if (resultCode == Activity.RESULT_OK) {
                 if (m_bluetoothAdapter!!.isEnabled) {
+                    img_bleIv.setImageResource(R.drawable.ic_ble_on)
                     Toast.makeText(this, "Bluetooth has been Enabled.", Toast.LENGTH_LONG).show()
                 } else {
+                    img_bleIv.setImageResource(R.drawable.ic_ble_off)
                     Toast.makeText(this, "Bluetooth has been Disabled.", Toast.LENGTH_LONG).show()
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
