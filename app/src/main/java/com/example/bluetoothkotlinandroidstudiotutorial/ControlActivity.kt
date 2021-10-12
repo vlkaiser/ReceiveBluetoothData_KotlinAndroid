@@ -30,6 +30,8 @@ class ControlActivity: AppCompatActivity() {
         var m_isConnected: Boolean = false
         lateinit var m_address: String
 
+        lateinit var macAddress: String
+
         val tempPos1: Int = 10
         val tempPos2: Int = 11
         val humiPos: Int = 12
@@ -55,6 +57,7 @@ class ControlActivity: AppCompatActivity() {
         btn_getData.setOnClickListener{
             Log.d("BLE", "onclick")
             Toast.makeText(this, "Scanning for broadcasted data...", Toast.LENGTH_LONG).show()
+            macAddress = ed_MACADDRESS.text.toString()
             m_bluetoothAdapter.bluetoothLeScanner.startScan(scanCallback)
         }
     }
@@ -69,7 +72,6 @@ class ControlActivity: AppCompatActivity() {
 
 //ToDo: Add other sensor?
            //if (device.address == "A4:C1:38:A6:AF:D1") {
-            var macAddress: String = ed_MACADDRESS.text.toString()
             if (device.address == macAddress)  {
                 Log.d("BLE", "Scan")
                 Log.d("BLE", device.address)
@@ -97,9 +99,9 @@ class ControlActivity: AppCompatActivity() {
                     val humiDec: Int = Integer.parseInt(h,16)
                     val batVDec: Double = (Integer.parseInt(b, 16)).toDouble()/1000
 
-                    txt_tempData.text = tempFDec.toString()
+                    txt_tempData.text = String.format("%.2f", tempFDec)
                     txt_humiData.text = humiDec.toString()
-                    txt_batVData.text = batVDec.toString()
+                    txt_batVData.text = String.format("%.3f",batVDec)
                 }
             }
         }
