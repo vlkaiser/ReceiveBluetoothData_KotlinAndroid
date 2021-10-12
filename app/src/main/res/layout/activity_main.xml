@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Bluetooth - Change to Linear Layout, orientation vertical-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <!--    Bluetooth Available or Not-->
+
+    <!--Bluetooth Icon On/Off-->
+
+    <TextView
+        android:id="@+id/txt_bleStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:minHeight="25dp"
+        android:padding="5dp"
+        android:text=""
+        android:textAlignment="center"
+        android:textColor="#000"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/img_bleIv"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_ble_off"
+        app:layout_constraintTop_toBottomOf="@id/txt_bleStatus"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <!--    Button: Turn BLE On-->
+    <Button
+        android:id="@+id/btn_BLE_On"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="200dp"
+        android:text="Turn On"
+        app:layout_constraintTop_toBottomOf="@id/img_bleIv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <!--    Button: Turn BLE Off-->
+    <Button
+        android:id="@+id/btn_BLE_Off"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="200dp"
+        android:padding="5dp"
+        android:text="Turn Off"
+        app:layout_constraintTop_toBottomOf="@id/btn_BLE_On"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <!--&lt;!&ndash;    Button: Turn BLE Discoverable&ndash;&gt;-->
+    <!--    <Button-->
+    <!--        android:id="@+id/btn_BLE_Discovery"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        style="@style/Widget.AppCompat.Button.Colored"-->
+    <!--        android:text="Discoverable"-->
+    <!--        android:minWidth="200dp"-->
+    <!--        />-->
+
+    <!--    Button: Get list of paired devices-->
+    <Button
+        android:id="@+id/btn_select_device_refresh"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="200dp"
+        android:text="Get Paired Devices"
+        app:layout_constraintTop_toBottomOf="@id/btn_BLE_Off"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <!--    Button: Show list of paired devices-->
+
+    <TextView
+        android:id="@+id/txt_BLE_PairedDevices"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:padding="5dp"
+        android:textColor="#000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_select_device_refresh" />
+
+    <ListView
+        android:id="@+id/select_device_list"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:background="#E4E1E1"
+        android:minHeight="25dp"
+        android:padding="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_BLE_PairedDevices" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
